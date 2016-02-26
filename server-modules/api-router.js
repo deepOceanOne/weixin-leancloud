@@ -13,9 +13,12 @@ const router = require('express').Router();
 
 // 添加一个模块
 const hello = require('./hello');
+const weixin = require('./weixin');
 
 // 一个 API 路由下的 hello 接口，访问 /api/hello
 router.get('/hello', hello.hello);
+
+router.get('/weixin', weixin.menu);
 
 // 测试 async/await 支持
 // const f = () => {
