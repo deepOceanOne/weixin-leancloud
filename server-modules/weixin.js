@@ -44,7 +44,8 @@ pub.menu = function (req, res) {
     var query = new AV.Query('WeixinInfo');
     query.equalTo('key', 'menu');
     query.find().then(function(results) {
-        var menu = results[0] || {};
+        var result = results[0] || {};
+        var menu = JSON.parse(result.get('value'));
         api.createMenu(menu);
     }, null);
 };
