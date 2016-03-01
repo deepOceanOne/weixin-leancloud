@@ -2,10 +2,12 @@
  * Created by Pmit_Mac on 2016/2/26.
  */
 var tool = require('./tool');
-var AV = require('avoscloud-sdk');
+var AV = require('leanengine');
 AV.initialize('t52Kgzz2xFPxNgVxcTEewNG6-gzGzoHsz', 'kAUCP6GDxbF0aW2moVy6H1Jt');
 var WechatAPI = require('wechat-api');
-var api = new WechatAPI('wxfe3526282e13a2bb', '9ec23e0d5dbf7692d1fde3fdb49b51a7');
+var appID = 'wxfe3526282e13a2bb',
+    secret = '9ec23e0d5dbf7692d1fde3fdb49b51a7';
+var api = new WechatAPI(appID, secret);
 var sha1 = require('sha1');
 
 var pub = {};
@@ -66,5 +68,26 @@ function checkSignature (options) {
         return false;
     }
 }
+
+pub.yz = function (req, res) {
+    var code = req.param('signature'),
+        state = req.param('state');
+    AV.Cloud.httpRequest({
+        url: 'https://api.weixin.qq.com/sns/oauth2/access_token',
+        params: {
+            appid: appID,
+            secret: secret,
+            code: code,
+            grant_type: 'authorization_code'
+        },
+        success: function(httpResponse) {
+            res.send(httpResponse.text);
+            //
+        },
+        error: function(httpResponse) {
+        }
+    });
+
+};
 
 module.exports = pub;
