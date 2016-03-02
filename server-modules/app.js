@@ -36,6 +36,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+app.use(AV.Cloud.CookieSession({ secret: 'my secret', maxAge: 3600000, fetchUser: true }));
 
 // 未处理异常捕获 middleware
 app.use((req, res, next) => {
@@ -74,5 +75,6 @@ app.use((req, res, next) => {
   res.sendFile(path.dirname(require.main.filename) + '/public/index.html');
   // res.status(404);
 });
+
 
 module.exports = app;

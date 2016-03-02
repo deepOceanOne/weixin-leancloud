@@ -7,8 +7,20 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/> <!-- 启用 WebApp 全屏模式 -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <title></title>
+    <script src="https://cdn1.lncld.net/static/js/av-mini-0.6.4.js"></script>
 </head>
 <body>
     <h2>helloworld</h2>
 </body>
 </html>
+<script>
+    AV.initialize('t52Kgzz2xFPxNgVxcTEewNG6-gzGzoHsz', 'kAUCP6GDxbF0aW2moVy6H1Jt');
+    var currentUser = AV.User.current();
+//    if (currentUser) {
+//        console.log(currentUser);
+//    } else {
+//        console.log('noLogin');
+//        var host = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+//        location.href = host + '?appid=wxfe3526282e13a2bb&redirect_uri=http://dev.weixin-wei.leanapp.cn/api/weixin/yz&response_type=code&scope=snsapi_base&state=123';
+//    }
+</script>
