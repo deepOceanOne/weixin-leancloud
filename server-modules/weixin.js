@@ -101,6 +101,9 @@ pub.userinfo = function (req, res) {
         }
     });
 };
+pub.zc = function (req, res) {
+
+};
 pub.yz = function (req, res) {
     var code = req.param('code'),
         state = req.param('state');
@@ -138,17 +141,22 @@ pub.yz = function (req, res) {
                     success: function(httpResponse) {
                         var result = httpResponse.data,
                             status = httpResponse.status;
+                        var url = 'https://open.weixin.qq.com/connect/oauth2/authorize' +
+                                '?appid='+appID+'&redirect_uri=http://dev.weixin-wei.leanapp.cn/api/weixin/yz&response_type=code&scope=snsapi_userinfo' +
+                                '&state=http://dev.weixin-wei.leanapp.cn/zc.html';
                         if (status === 200) {
                             // 已注册
+                            res.render('yz', {
+                                sessionToken: result.sessionToken,
+                                url: state
+                            });
                         } else {
-                            // 未注册
-
+                            // 未注册,跳转到注册页面
+                            res.render('yz', {
+                                sessionToken: result.sessionToken,
+                                url: url
+                            });
                         }
-                        res.send({result: 'ok', body: httpResponse});
-                        //res.render('yz', {
-                        //    sessionToken: result.sessionToken,
-                        //    url: state
-                        //});
                     },
                     error: function(httpResponse) {
                         console.error('Request failed with response code ' + httpResponse.status);
