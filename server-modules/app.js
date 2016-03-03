@@ -13,6 +13,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const AV = require('leanengine');
+const methodOverride = require('method-override');
 const app = express();
 
 // babel 编译
@@ -24,19 +25,27 @@ const tool = require('./tool');
 const config = require('./config');
 
 // 设置 view 引擎
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
+ app.set('views', path.join(__dirname, 'views'));
+ app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
 
 // 使用 LeanEngine 中间件
 app.use(AV.Cloud);
+// 加载 cookieSession 以支持 AV.User 的会话状态
+app.use(AV.Cloud.CookieSession({ secret: '05XgTktKPMkU', maxAge: 3600000, fetchUser: true }));
+
+// 强制使用 https
+app.enable('trust proxy');
+app.use(AV.Cloud.HttpsRedirect());
+
+app.use(methodOverride('_method'))
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-app.use(cookieParser());
-app.use(AV.Cloud.CookieSession({ secret: 'my secret', maxAge: 3600000, fetchUser: true }));
+
 
 // 未处理异常捕获 middleware
 app.use((req, res, next) => {

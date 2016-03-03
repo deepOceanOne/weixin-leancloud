@@ -73,15 +73,37 @@ function checkSignature (options) {
         return false;
     }
 }
+pub.test = function (req, res) {
+    res.render('yz', {
+        sessionToken: 'dfsdsdfsd',
+        url: 'http://baidu.com    '
+    });
+};
+pub.userinfo = function (req, res) {
+    var accessToken = req.param('access_token'),
+        openID = req.param('openid');
+    AV.Cloud.httpRequest({
+        url: 'https://api.weixin.qq.com/sns/userinfo',
+        params: {
+            access_token: accessToken,
+            openid: openID,
+            lang: 'zh_CN'
+        },
+        success: function(httpResponse) {
+            var result = JSON.parse(httpResponse.data);
+            if (result.ERRCODE === 40001) {
+                // 超时
 
+            }
+            res.send(result);
+        },
+        error: function(httpResponse) {
+        }
+    });
+};
 pub.yz = function (req, res) {
     var code = req.param('code'),
         state = req.param('state');
-    AV.User.logIn('myname', 'mypass').then(function() {
-        // 成功了，现在可以做其他事情了
-    }, function() {
-        // 失败了
-    });
     AV.Cloud.httpRequest({
         url: 'https://api.weixin.qq.com/sns/oauth2/access_token',
         params: {
@@ -114,15 +136,19 @@ pub.yz = function (req, res) {
                         }
                     },
                     success: function(httpResponse) {
-                        console.log(httpResponse.text);
-                        var result = httpResponse.data;
-                        AV.User.become(result.sessionToken).then(function (user) {
-                            // The current user is changed.
-                            res.send({result: 'ok', body: JSON.stringify(user)});
-                        }, function (error) {
-                            // Login failed.
-                            res.send({result: 'fail', body: error});
-                        });
+                        var result = httpResponse.data,
+                            status = httpResponse.status;
+                        if (status === 200) {
+                            // 已注册
+                        } else {
+                            // 未注册
+
+                        }
+                        res.send({result: 'ok', body: httpResponse});
+                        //res.render('yz', {
+                        //    sessionToken: result.sessionToken,
+                        //    url: state
+                        //});
                     },
                     error: function(httpResponse) {
                         console.error('Request failed with response code ' + httpResponse.status);

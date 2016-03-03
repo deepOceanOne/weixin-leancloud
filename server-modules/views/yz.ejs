@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="hidden" value="<%=sessionToken%>" id="info">
+<input type="hidden" value="<%=url%>" id="url">
+</body>
+</html>
+<script>
+    localStorage.setItem('sessionToken', document.getElementById('info').value);
+    location.href = document.getElementById('url').value;
+</script>

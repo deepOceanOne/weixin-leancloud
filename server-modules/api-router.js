@@ -20,6 +20,8 @@ router.get('/hello', hello.hello);
 
 router.get('/weixin', weixin.menu);
 router.get('/weixin/yz', weixin.yz);
+router.get('/weixin/userinfo', weixin.userinfo);
+router.get('/weixin/test', weixin.test);
 
 // 测试 async/await 支持
 // const f = () => {
