@@ -157,8 +157,6 @@ pub.yz = function (req, res) {
                                     },
                                     success: function(httpResponse) {
                                         var result = JSON.parse(httpResponse.data);
-                                        res.send(result);
-                                        return;
                                         if (result.ERRCODE === 40001) {
                                             // 超时
 
