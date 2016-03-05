@@ -143,13 +143,60 @@ pub.yz = function (req, res) {
                             status = httpResponse.status;
                         var url = 'https://open.weixin.qq.com/connect/oauth2/authorize' +
                                 '?appid='+appID+'&redirect_uri=http://dev.weixin-wei.leanapp.cn/api/weixin/yz&response_type=code&scope=snsapi_userinfo' +
-                                '&state=http://dev.weixin-wei.leanapp.cn/zc.html';
+                                '&state=' + state;
+                        AV.User.become(result.sessionToken);
                         if (status === 200) {
                             // 已注册
-                            res.render('yz', {
-                                sessionToken: result.sessionToken,
-                                url: state
-                            });
+                            if (result.authData['weixin']['scope'] === 'snsapi_userinfo') {
+                                AV.Cloud.httpRequest({
+                                    url: 'https://api.weixin.qq.com/sns/userinfo',
+                                    params: {
+                                        access_token: result.authData['weixin']['access_token'],
+                                        openid: result.authData['weixin']['openid'],
+                                        lang: 'zh_CN'
+                                    },
+                                    success: function(httpResponse) {
+                                        var result = JSON.parse(httpResponse.data);
+                                        res.send(result);
+                                        return;
+                                        if (result.ERRCODE === 40001) {
+                                            // 超时
+
+                                        } else {
+                                            var user = new AV.User();
+                                            user.set({
+                                                'nickname': result['nickname'],
+                                                'sex': result['sex'],
+                                                'province': result['province'],
+                                                'city': result['city'],
+                                                'headimgurl': result['headimgurl'],
+                                                'privilege': result['privilege'],
+                                                'unionid': result['unionid']
+                                            });
+                                            user.save();
+                                            res.render('yz', {
+                                                sessionToken: result.sessionToken,
+                                                url: '/zc.html'
+                                            });
+                                        }
+                                    },
+                                    error: function(httpResponse) {
+                                    }
+                                });
+                            } else {
+                                if (result.mobilePhoneVerified === false) {
+                                    // 没有手机验证,去注册页面
+                                    res.render('yz', {
+                                        sessionToken: result.sessionToken,
+                                        url: '/zc.html'
+                                    });
+                                } else {
+                                    res.render('yz', {
+                                        sessionToken: result.sessionToken,
+                                        url: state
+                                    });
+                                }
+                            }
                         } else {
                             // 未注册,跳转到注册页面
                             res.render('yz', {
