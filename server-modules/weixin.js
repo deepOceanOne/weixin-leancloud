@@ -161,7 +161,7 @@ pub.yz = function (req, res) {
                                             // 超时
 
                                         } else {
-                                            var user = new AV.User();
+                                            var user = AV.User.current();
                                             user.set({
                                                 'nickname': result['nickname'],
                                                 'sex': result['sex'],

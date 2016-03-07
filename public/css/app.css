@@ -1,0 +1,32 @@
+.vm {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.hd {
+    padding: 2em 0;
+}
+.page_title {
+    text-align: center;
+    font-size: 34px;
+    color: #3cc51f;
+    font-weight: 400;
+    margin: 0 15%;
+}
+.page_desc {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+.bd {
+    padding: 0 15px;
+}
+.spacing {
+    margin-top: 15px;
+}
+i.weui_icon_warn {
+    display: none;
+}
+.weui_cell_warn i.weui_icon_warn {
+    display: inline-block;
+}
