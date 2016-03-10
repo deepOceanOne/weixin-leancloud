@@ -34,11 +34,14 @@
             <div class="weui_cell_bd weui_cell_primary">
                 <input class="weui_input" type="number" name="code" data-pattern="require">
             </div>
+            <div class="weui_cell_ft">
+                <i class="weui_icon_warn"></i>
+            </div>
         </div>
         </form>
     </div>
     <div class="bd spacing">
-        <a href="javascript:;" class="weui_btn weui_btn_primary">验证</a>
+        <a href="javascript:;" class="weui_btn weui_btn_primary" id="check_bnt">验证</a>
         <!--<a href="javascript:;" class="weui_btn weui_btn_disabled weui_btn_primary">按钮</a>-->
     </div>
     <div id="loadingToast" class="weui_loading_toast" style="display: none;">
@@ -68,18 +71,18 @@
     var user;
     AV.initialize('t52Kgzz2xFPxNgVxcTEewNG6-gzGzoHsz', 'kAUCP6GDxbF0aW2moVy6H1Jt');
 
-//    App.showLoading();
+    App.showLoading();
     App.checkLogin(function (result) {
         App.hideLoading();
-        alert('登录成功');
         user = result;
     });
 
     var getCodeBtn = $('#get_code_btn');
+    var checkBtn = $('#check_bnt');
     $('input').on('input', function (e) {
         App.formValiate(e.currentTarget.name).hide();
     });
-    getCodeBtn.on('touchend', function () {
+    getCodeBtn.on('tap', function () {
         var tel = $('input[name=tel]').val().trim();
         if (tel === '') {
             var $input = App.formValiate('tel').show();
@@ -87,14 +90,45 @@
                 $input.focus();
             }, 0);
         } else {
+            $('input').blur();
             // 发送验证码
-            alert(tel);
+            App.showLoading();
             user.setMobilePhoneNumber(tel);
             user.save().then(function () {
-                alert('发送成功');
+                AV.User.requestMobilePhoneVerify(tel).then(function() {
+                    //发送成功
+                    App.hideLoading();
+                    alert('发送成功')
+                }, function(err) {
+                    //发送失败
+                    App.hideLoading();
+                    alert('发送失败:' + JSON.stringify(err));
+                });
             }, function () {
+                App.hideLoading();
                 alert('发送失败');
             })
+        }
+    });
+    checkBtn.on('tap', function () {
+        var code = $('input[name=code]').val().trim();
+        if (code === '') {
+            var $input = App.formValiate('code').show();
+            setTimeout(function () {
+                $input.focus();
+            }, 0);
+        } else {
+            $('input').blur();
+            App.showLoading();
+            AV.User.verifyMobilePhone(code).then(function() {
+                //验证成功
+                App.hideLoading();
+                alert('验证成功');
+            }, function(err) {
+                //验证失败
+                App.hideLoading();
+                alert('验证失败:' + JSON.stringify(err));
+            });
         }
     })
 </script>

@@ -10,14 +10,14 @@
             var session = localStorage.getItem('sessionToken');
             if (session === null) {
                 console.log('no session');
-                //location.href = this.weixinLoginUrl.replace('RETURN_URL', location.href);
+                location.href = this.weixinLoginUrl.replace('RETURN_URL', location.href);
             } else {
                 AV.User.become(session).then(function (user) {
                     // The current user is changed.
                     callback(user);
                 }, function (error) {
                     // Login failed.
-                    //location.href = self.weixinLoginUrl.replace('RETURN_URL', location.href);
+                    location.href = self.weixinLoginUrl.replace('RETURN_URL', location.href);
                 });
             }
         },

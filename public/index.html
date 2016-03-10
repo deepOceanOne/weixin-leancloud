@@ -13,14 +13,14 @@
     <h2>helloworld</h2>
 </body>
 </html>
+<script src="js/zepto.min.js"></script>
+<script src="js/app.js"></script>
 <script>
     AV.initialize('t52Kgzz2xFPxNgVxcTEewNG6-gzGzoHsz', 'kAUCP6GDxbF0aW2moVy6H1Jt');
-    var currentUser = AV.User.current();
-//    if (currentUser) {
-//        console.log(currentUser);
-//    } else {
-//        console.log('noLogin');
-//        var host = 'https://open.weixin.qq.com/connect/oauth2/authorize';
-//        location.href = host + '?appid=wxfe3526282e13a2bb&redirect_uri=http://dev.weixin-wei.leanapp.cn/api/weixin/yz&response_type=code&scope=snsapi_base&state=123';
-//    }
+
+    App.showLoading();
+    App.checkLogin(function (result) {
+        App.hideLoading();
+        alert('登陆成功');
+    });
 </script>
