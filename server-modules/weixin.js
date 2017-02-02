@@ -39,6 +39,8 @@ pub.menu = function (req, res) {
         TOKEN: TOKEN
     });
 
+    result = true;
+
     if (result) {
         res.send(req.param('echostr'));
     } else {
