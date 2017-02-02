@@ -39,7 +39,7 @@ pub.menu = function (req, res) {
         TOKEN: TOKEN
     });
 
-    result = true;
+    result = true;  // remove this later
 
     if (result) {
         res.send(req.param('echostr'));
@@ -50,6 +50,7 @@ pub.menu = function (req, res) {
 
 
     // 获取服务器菜单数据
+    /*  recover this later
     var query = new AV.Query('WeixinInfo');
     query.equalTo('key', 'menu');
     query.find().then(function(results) {
@@ -57,6 +58,7 @@ pub.menu = function (req, res) {
         var menu = JSON.parse(result.get('value'));
         api.createMenu(menu);
     }, null);
+    */
 };
 
 
