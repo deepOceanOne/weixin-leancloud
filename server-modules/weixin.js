@@ -10,8 +10,8 @@ var MASTER_KEY = process.env.LC_APP_MASTER_KEY ; // 你的 master key
 
 AV.initialize(APP_ID, APP_KEY, MASTER_KEY);
 var WechatAPI = require('wechat-api');
-var appID = 'wx2f24419532449405',
-    secret = '29f0c3c8cb18b61ecc43c9756b3f9195';
+var appID = process.env.LC_WEICHAT_APPID,
+    secret = process.env.LC_WEICHAT_APPSECRET;
 var api = new WechatAPI(appID, secret);
 var sha1 = require('sha1');
 
