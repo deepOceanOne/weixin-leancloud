@@ -4,19 +4,19 @@
 var tool = require('./tool');
 var AV = require('leanengine');
 
-var APP_ID = process.env.LC_APP_ID || 't52Kgzz2xFPxNgVxcTEewNG6-gzGzoHsz'; // 你的 app id
-var APP_KEY = process.env.LC_APP_KEY || 'kAUCP6GDxbF0aW2moVy6H1Jt'; // 你的 app key
-var MASTER_KEY = process.env.LC_APP_MASTER_KEY || 'S4IyefBFWrb0nRdlqRvYsJz4'; // 你的 master key
+var APP_ID = process.env.LC_APP_ID ; // 你的 app id
+var APP_KEY = process.env.LC_APP_KEY ; // 你的 app key
+var MASTER_KEY = process.env.LC_APP_MASTER_KEY ; // 你的 master key
 
 AV.initialize(APP_ID, APP_KEY, MASTER_KEY);
 var WechatAPI = require('wechat-api');
-var appID = 'wxfe3526282e13a2bb',
-    secret = '9ec23e0d5dbf7692d1fde3fdb49b51a7';
+var appID = 'wx2f24419532449405',
+    secret = '29f0c3c8cb18b61ecc43c9756b3f9195';
 var api = new WechatAPI(appID, secret);
 var sha1 = require('sha1');
 
 var pub = {};
-var TOKEN = '5dtumJl0Avmv7Rk4hgY1irpSJTtDZYceykIuTgkoXWQPeN0Mzpf1RBEDmujXrrHrY1-Twc2Qrhr2HUuP4XEkRUuQSmjz_vdZua-ubJSdXAgUGYgABAIUM';
+var TOKEN = 'thisisonesimpletoken';
 
 
 
